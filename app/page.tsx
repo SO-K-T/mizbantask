@@ -8,9 +8,11 @@ import { fetchProduct, postProduct } from "./requests";
 import Spinner from "./components/spinner";
 
 export default function Home() {
+  const [displayedSection, setDisplayedSection] = useState<
+    "fetch" | "post" | "delete" | "update" | undefined
+  >(undefined);
   const [fetchData, setFetchData] = useState<boolean>(false);
   const [postData, setPostData] = useState<boolean>(false);
-  const [showPostForm, setShowPostForm] = useState<boolean>(false);
   const [postFormData, setPostFormData] = useState<string | undefined>(
     undefined
   );
@@ -39,7 +41,7 @@ export default function Home() {
 
   isPostSuccess && console.log(isPostSuccess);
 
-  const onSubmit = (e: HTMLFormElement) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(e.currentTarget));
@@ -52,12 +54,18 @@ export default function Home() {
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <h1 className=" bg-gray-700 px-6 py-6 rounded-md"> Mizban Center Task</h1>
       <div className="flex flex-wrap gap-4 items-center mt-10">
-        <Button onPress={() => setFetchData(true)} color="default">
+        <Button
+          onPress={() => {
+            setFetchData(true);
+            setDisplayedSection("fetch");
+          }}
+          color="default"
+        >
           Fetch
         </Button>
         <Button
           onPress={() => {
-            setShowPostForm(true);
+            setDisplayedSection("post");
           }}
           color="primary"
         >
@@ -71,13 +79,13 @@ export default function Home() {
 
       {/* fetch section */}
       {fetchError && <span>Error: {fetchError.message}</span>}
-      {isFetchSuccess && (
+      {isFetchSuccess && displayedSection === "fetch" && (
         <div className=" mt-10 bg-purple-700 px-4 py-8 rounded-md">
           {fetchQuery.title}
         </div>
       )}
       {/* post section */}
-      {showPostForm && (
+      {displayedSection === "post" && (
         <Form
           style={{ direction: "rtl" }}
           className="w-full max-w-xs  mt-10"
