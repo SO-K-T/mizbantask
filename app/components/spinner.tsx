@@ -2,7 +2,7 @@ import React from "react";
 
 const Spinner = () => {
   return (
-    <div className=" absolute top-[50%] left-[50%] transform  translate-x-[-50%] translate-y-[60%] rounded-lg ">
+    <div className=" absolute top-[50%] left-[50%] transform  translate-x-[-50%] translate-y-[60%] rounded-lg  z-0">
       <svg
         className="w-6 h-6 absolute    text-violet-500 animate-spin"
         viewBox="0 0 64 64"
